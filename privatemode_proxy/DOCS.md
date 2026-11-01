@@ -33,6 +33,10 @@ the proxy replaces it with your real key.
 Why llama.cpp: it is a built-in integration that accepts any OpenAI-compatible
 server address. Home Assistant's OpenAI integration only connects to OpenAI.
 
+## Health
+
+Docker checks `/readyz` every 30 seconds; Home Assistant restarts the add-on if the proxy stops responding.
+
 ## Network
 
 By default the proxy is reachable only from Home Assistant and other add-ons.

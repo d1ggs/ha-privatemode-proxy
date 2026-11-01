@@ -8,8 +8,6 @@ arch:
   - aarch64
 init: false
 startup: services
-boot: auto
-watchdog: http://[HOST]:[PORT:8080]/readyz
 ports:
   8080/tcp: null
 ports_description:
