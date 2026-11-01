@@ -35,7 +35,7 @@ server address. Home Assistant's OpenAI integration only connects to OpenAI.
 
 ## Health
 
-Docker checks `/readyz` every 30 seconds; Home Assistant restarts the add-on if the proxy stops responding.
+Docker checks `/readyz` every 30 seconds. With **Watchdog** turned on (Info tab), Home Assistant restarts the add-on when the check fails.
 
 ## Network
 
