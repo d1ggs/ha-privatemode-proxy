@@ -1,0 +1,6 @@
+configuration:
+  api_key:
+    name: API key
+    description: Your Privatemode API key. It stays inside this add-on; clients use the word "placeholder" as their key.
+network:
+  8080/tcp: Expose the proxy to your network. Leave empty to keep it reachable only from Home Assistant and other add-ons.

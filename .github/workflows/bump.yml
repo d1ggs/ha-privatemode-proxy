@@ -1,0 +1,49 @@
+name: Follow upstream proxy release
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Compare with latest stable upstream release
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest=$(gh api repos/edgelesssys/privatemode-public/releases/latest --jq .tag_name)
+          current=$(sed -n 's/^ARG PROXY_VERSION=//p' privatemode_proxy/Dockerfile)
+          echo "latest=$latest current=$current"
+          if [ "$latest" = "$current" ]; then
+            echo "update=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Only bump once the image for this release is published.
+          docker manifest inspect "ghcr.io/edgelesssys/privatemode/privatemode-proxy:$latest" > /dev/null
+          echo "update=true" >> "$GITHUB_OUTPUT"
+          echo "tag=$latest" >> "$GITHUB_OUTPUT"
+          echo "version=${latest#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Update Dockerfile, version and changelog
+        if: steps.check.outputs.update == 'true'
+        env:
+          TAG: ${{ steps.check.outputs.tag }}
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          sed -i "s/^ARG PROXY_VERSION=.*/ARG PROXY_VERSION=$TAG/" privatemode_proxy/Dockerfile
+          sed -i "s/^version: .*/version: \"$VERSION\"/" privatemode_proxy/config.yaml
+          entry="## $VERSION\n\n- Privatemode proxy [$TAG](https://github.com/edgelesssys/privatemode-public/releases/tag/$TAG).\n"
+          sed -i "0,/^## /s|^## |$entry\n## |" privatemode_proxy/CHANGELOG.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Update Privatemode proxy to $TAG"
+          git tag "$VERSION"
+          git push origin HEAD --tags

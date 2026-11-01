@@ -1,0 +1,20 @@
+name: Privatemode Proxy
+version: "1.61.0"
+slug: privatemode_proxy
+description: Encrypted access to Privatemode's EU-hosted LLMs, for Assist and other OpenAI-compatible clients
+url: https://github.com/d1ggs/ha-privatemode-proxy
+arch:
+  - amd64
+  - aarch64
+init: false
+startup: services
+boot: auto
+watchdog: http://[HOST]:[PORT:8080]/readyz
+ports:
+  8080/tcp: null
+ports_description:
+  8080/tcp: Expose the proxy to your network (leave empty to keep it internal to Home Assistant)
+options:
+  api_key: ""
+schema:
+  api_key: password
