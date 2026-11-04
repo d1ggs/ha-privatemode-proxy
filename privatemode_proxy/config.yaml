@@ -1,5 +1,5 @@
 name: Privatemode Proxy
-version: "1.61.0"
+version: "1.62.0"
 slug: privatemode_proxy
 description: Encrypted access to Privatemode's EU-hosted LLMs, for Assist and other OpenAI-compatible clients
 url: https://github.com/d1ggs/ha-privatemode-proxy
