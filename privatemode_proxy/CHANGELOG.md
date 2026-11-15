@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.64.0
+
+- Privatemode proxy [v1.64.0](https://github.com/edgelesssys/privatemode-public/releases/tag/v1.64.0).
+
 ## 1.63.0
 
 - Privatemode proxy [v1.63.0](https://github.com/edgelesssys/privatemode-public/releases/tag/v1.63.0).

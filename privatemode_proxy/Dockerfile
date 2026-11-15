@@ -1,6 +1,6 @@
 # The proxy image is Privatemode's official build, used unmodified.
 # PROXY_VERSION is bumped automatically by .github/workflows/bump.yml.
-ARG PROXY_VERSION=v1.63.0
+ARG PROXY_VERSION=v1.64.0
 
 # Statically linked BusyBox, only used by run.sh to read the add-on options.
 FROM busybox:musl AS busybox
